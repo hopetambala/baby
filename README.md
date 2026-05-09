@@ -40,7 +40,7 @@ Replace the placeholder with your own maternity or family photo:
 
 ## Poppylist registry
 
-Registry link: `https://poppylist.com/registry/41126`
+Registry link: `https://poppylist.com/registry/hopeandcarly`
 
 Referenced in two places if you ever need to update it:
 - `src/pages/index.js` — hero CTA and registry section button

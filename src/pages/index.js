@@ -26,7 +26,7 @@ export default function Home() {
         </div>
         <div className={styles.landingCta}>
           <a
-            href="https://poppylist.com/registry/41126"
+            href="https://poppylist.com/registry/hopeandcarly"
             target="_blank"
             rel="noreferrer"
           >
@@ -84,7 +84,7 @@ export default function Home() {
               we&rsquo;d be so touched.
             </p>
             <a
-              href="https://poppylist.com/registry/41126"
+              href="https://poppylist.com/registry/hopeandcarly"
               target="_blank"
               rel="noreferrer"
               className={styles.registryButton}
@@ -100,7 +100,7 @@ export default function Home() {
         setOpen={toggleMenu}
         links={[
           {
-            href: "https://poppylist.com/registry/41126",
+            href: "https://poppylist.com/registry/hopeandcarly",
             text: "Registry",
             newTab: true,
           },
