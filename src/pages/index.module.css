@@ -1,5 +1,6 @@
 .landing {
   position: relative;
+  background-color: var(--hex-neutral-900);
   background: url("../assets/photos/landing-engagement.jpeg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
