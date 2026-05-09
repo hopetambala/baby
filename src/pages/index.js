@@ -9,6 +9,8 @@ import { FloatingElements } from "../components/floating-elements/floating-eleme
 import * as styles from "./index.module.css";
 import { Menu } from "../components/navigation/menu/menu";
 
+export const Head = () => <title>Baby T</title>;
+
 export default function Home() {
   const [open, setOpen] = useState(false);
   const toggleMenu = () => setOpen(!open);
