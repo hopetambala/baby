@@ -1,0 +1,35 @@
+.burger {
+  position: absolute;
+  top: 5%;
+  left: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  background: var(--hex-sage);
+  width: 2.75rem;
+  height: 2.75rem;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+  padding: var(--spacer-s);
+  border: solid var(--hex-cream);
+  border-width: var(--spacer-xs);
+  border-radius: var(--border-radius-s);
+}
+
+.burger div {
+  width: 100%;
+  height: 0.25rem;
+  background-color: var(--hex-cream);
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative; 
+  transform-origin: 1px;
+}
+
+/* .open {
+  '#0D0C1D': '#EFFFFA'
+  
+  
+  ;
+} */

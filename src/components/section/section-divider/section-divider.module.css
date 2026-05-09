@@ -1,0 +1,22 @@
+.scallop {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.top {
+  transform: rotate(180deg);
+}
+
+.scallop svg {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 80px;
+}
+
+.scallop .shapeFill {
+  fill: var(--hex-sage);
+}
