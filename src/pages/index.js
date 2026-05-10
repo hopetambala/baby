@@ -172,8 +172,8 @@ export default function Home() {
             <Card className={styles.helpCard}>
               <h3>Meal Train</h3>
               <p>
-                One of the best gifts you can give is a home-cooked meal. Sign
-                up to bring us dinner after she arrives.
+                One of the best gifts you can give is a home-cooked meal! We'd love
+                for a delicious dish to help us get through those first few weeks of newborn bliss (and sleep deprivation).
               </p>
               <a
                 href="https://mealtrain.com/0r3nw4"
