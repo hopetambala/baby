@@ -84,8 +84,12 @@ p {
   }
 
   .landingText {
-    width: 85%;
-    padding-top: var(--spacer-xxl);
+    position: absolute;
+    bottom: var(--spacer-xxl);
+    left: var(--spacer-l);
+    right: var(--spacer-l);
+    width: auto;
+    padding-top: 0;
   }
 
   .landingText h1,
