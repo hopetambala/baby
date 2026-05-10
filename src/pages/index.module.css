@@ -33,7 +33,7 @@
 
 .registryButton {
   display: inline-block;
-  background-color: var(--hex-moss);
+  background-color: var(--hex-pink-900);
   color: var(--hex-cream);
   padding: var(--spacer-m) var(--spacer-xl);
   border-radius: var(--border-radius-l);
@@ -45,7 +45,7 @@
 }
 
 .registryButton:hover {
-  background-color: #6a9b64;
+  background-color: var(--hex-pink-800);
   color: var(--hex-cream);
 }
 
@@ -54,6 +54,21 @@
   font-size: var(--font-size-h2);
   margin-top: var(--spacer-m);
   letter-spacing: 0.1rem;
+}
+
+.helpCard {
+  height: auto !important;
+  min-height: 200px;
+  padding: var(--spacer-l);
+  border-radius: var(--border-radius-m);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacer-s);
+}
+
+.helpCard h3 {
+  margin: 0;
+  padding: 0;
 }
 
 em,

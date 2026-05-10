@@ -79,5 +79,5 @@ a {
 a:hover {
   color: var(--color-link-hover);
   transition: color 0.3s;
-  text-decoration: none;
+  text-decoration: underline;
 }

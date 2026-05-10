@@ -151,9 +151,9 @@
   --color-bg-dark: var(--hex-neutral-200);
 
   /* Text */
-  --color-link: var(--hex-moss);
-  --color-link-active: #4a7a44;
-  --color-link-hover: #6a9b64;
+  --color-link: var(--hex-pink-900);
+  --color-link-active: var(--hex-pink-900);
+  --color-link-hover: var(--hex-pink-800);
   --color-text: var(--hex-neutral-900);
   --color-text-light: var(--hex-neutral-700);
   --color-text-placeholder: var(--hex-neutral-600);

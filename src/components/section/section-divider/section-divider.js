@@ -11,9 +11,10 @@ export const SectionDivider = ({ isTop }) => {
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 1200 120"
         preserveAspectRatio="none"
+        style={{ display: "block", width: "calc(100% + 1.3px)", maxWidth: "none", height: "70px" }}
       >
         <path
-          d="M0,120 L0,90 A75,50 0 0,0 150,90 A75,50 0 0,0 300,90 A75,50 0 0,0 450,90 A75,50 0 0,0 600,90 A75,50 0 0,0 750,90 A75,50 0 0,0 900,90 A75,50 0 0,0 1050,90 A75,50 0 0,0 1200,90 L1200,120 Z"
+          d="M0,120 V102 C500,82 800,108 1200,92 V120 Z"
           className={styles.shapeFill}
         />
       </svg>
