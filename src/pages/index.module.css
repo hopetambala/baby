@@ -83,6 +83,10 @@ p {
     text-align: center;
   }
 
+  .landing {
+    background-attachment: scroll;
+  }
+
   .landingText {
     position: absolute;
     bottom: var(--spacer-xxl);
