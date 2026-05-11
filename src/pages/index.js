@@ -165,7 +165,7 @@ export default function Home() {
 
       <Section title="Ways to Show Love">
         <motion.div {...scrollReveal}>
-          <p>Here are a few ways to shower Baby T with love.</p>
+          <p>It takes a village! Here are a few ways to shower Baby T with love.</p>
           <Grid>
             <Card className={styles.helpCard}>
               <h3>Dinner and a Visit</h3>
