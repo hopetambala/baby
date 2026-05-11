@@ -112,15 +112,14 @@ export default function Home() {
             <GridItem>
               <p>We&rsquo;re so grateful you&rsquo;re here.</p>
               <p>
-                We&rsquo;re expecting our first baby girl and couldn&rsquo;t be more
-                excited to share this news with the people we love most. This
-                journey has already been filled with so much joy, and that joy is
-                only possible because of the incredible community around us.
+                She&rsquo;s already changing everything, and she isn&rsquo;t even here yet!
+                We&rsquo;ve been dreaming about tiny socks, late-night feedings, and watching
+                our little family grow. Knowing we get to do it surrounded by people
+                we love makes it all feel that much sweeter.
               </p>
               <p>
-                Thank you for your love, your encouragement, and your support.
-                We feel so lucky to be surrounded by you as we step into this
-                new chapter.
+                Thank you for your love, your excitement, and your support.
+                This community means everything to us.
               </p>
               <em>Love, Hope &amp; Carly</em>
             </GridItem>
@@ -142,12 +141,11 @@ export default function Home() {
           <Grid position="center">
             <GridItem>
               <p>
-                Your love means everything to us. If you&rsquo;d like
-                to celebrate baby&rsquo;s arrival with a gift, we&rsquo;ve set up
-                a registry on Poppylist where you can contribute to both physical items and experiences.
+                If you&rsquo;d like to celebrate baby&rsquo;s arrival with a gift, we&rsquo;ve
+                set up a registry on Poppylist where you can contribute to physical items and experiences.
               </p>
               <p>
-                No gift is ever expected (seriously!), but if you&rsquo;d like to take a look,
+                Your presence is more than enough, but if you&rsquo;d like to take a look,
                 we&rsquo;d be so touched.
               </p>
               <a
@@ -165,32 +163,31 @@ export default function Home() {
 
       <SectionDivider isTop />
 
-      <Section title="How to Help">
+      <Section title="Ways to Show Love">
         <motion.div {...scrollReveal}>
+          <p>Here are a few ways to shower Baby T with love.</p>
           <Grid>
             <Card className={styles.helpCard}>
-              <h3>Food & Friends</h3>
+              <h3>Dinner and a Visit</h3>
               <p>
-                One of the best gifts you can give is a home-cooked meal! We'd love
-                for a delicious dish to help us get through those first few weeks of newborn bliss (and sleep deprivation).
-
-                If you have the time, you can stop by and say hi!
+                One of our favorite things is sharing a meal with people we love.
+                If you want to cook for us and stop by to meet her, we would be over the moon.
               </p>
               <a
                 href="https://mealtrain.com/0r3nw4"
                 target="_blank"
                 rel="noreferrer"
               >
-                Sign Up
+                Pick a Date
               </a>
             </Card>
             <Card className={styles.helpCard}>
-              <h3>Other Ways to Help</h3>
-              <p>
-                Grocery delivery gift cards (Instacart or Whole Foods), a
-                professional house cleaning session, or contributing toward
-                postpartum support all go a long way.
-              </p>
+              <h3>A Few Other Ideas</h3>
+              <ul>
+                <li>Grocery delivery gift cards (Instacart or Whole Foods)</li>
+                <li>A professional house cleaning session</li>
+                <li>Contributing toward postpartum support</li>
+              </ul>
             </Card>
           </Grid>
         </motion.div>
@@ -206,7 +203,7 @@ export default function Home() {
 <p>
   Whether you&rsquo;ve known us for years or are just hearing the news,
   we&rsquo;d love a note from you. Advice, encouragement, or just a good
-  old-fashioned pep talk as we step into this new chapter!
+  old-fashioned pep talk as we welcome her into the world!
 </p>
               <Guestbook />
             </GridItem>
@@ -225,7 +222,7 @@ export default function Home() {
           },
           { href: "#welcome", text: "Welcome" },
           { href: "#registry", text: "Registry" },
-          { href: "#howtohelp", text: "How to Help" },
+          { href: "#waystoshowlove", text: "Ways to Show Love" },
           { href: "#leaveanote", text: "Leave a Note" },
         ]}
       />
