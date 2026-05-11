@@ -142,13 +142,12 @@ export default function Home() {
           <Grid position="center">
             <GridItem>
               <p>
-                Your presence and love mean everything to us. If you&rsquo;d like
+                Your love means everything to us. If you&rsquo;d like
                 to celebrate baby&rsquo;s arrival with a gift, we&rsquo;ve set up
-                a registry on Poppylist &mdash; a platform that lets you
-                contribute to both physical items and experiences.
+                a registry on Poppylist where you can contribute to both physical items and experiences.
               </p>
               <p>
-                No gift is ever expected, but if you&rsquo;d like to take a look,
+                No gift is ever expected (seriously!), but if you&rsquo;d like to take a look,
                 we&rsquo;d be so touched.
               </p>
               <a
@@ -170,10 +169,12 @@ export default function Home() {
         <motion.div {...scrollReveal}>
           <Grid>
             <Card className={styles.helpCard}>
-              <h3>Meal Train</h3>
+              <h3>Food & Friends</h3>
               <p>
                 One of the best gifts you can give is a home-cooked meal! We'd love
                 for a delicious dish to help us get through those first few weeks of newborn bliss (and sleep deprivation).
+
+                If you have the time, you can stop by and say hi!
               </p>
               <a
                 href="https://mealtrain.com/0r3nw4"
