@@ -12,7 +12,7 @@ export function Guestbook() {
     if (!name.trim() || !message.trim()) return
     setStatus("submitting")
     const { error } = await supabase
-      .from("guestbook")
+      .from("baby_guestbook")
       .insert({ name: name.trim(), message: message.trim() })
     if (error) {
       setStatus("error")
