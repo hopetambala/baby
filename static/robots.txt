@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://baby.hopeandcarly.com/sitemap.xml

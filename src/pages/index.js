@@ -60,7 +60,28 @@ const scrollReveal = {
   transition: { duration: 0.7, ease: "easeOut" },
 };
 
-export const Head = () => <title>Baby T</title>;
+export const Head = () => (
+  <>
+    <title>Hope & Carly Are Having a Baby Girl!</title>
+    <meta
+      name="description"
+      content="Hope and Carly are expecting their first baby girl, due October 9, 2026. View our registry, sign up to bring a meal, and leave us a note."
+    />
+    <meta name="robots" content="index, follow" />
+
+    {/* Open Graph — controls how the link looks when shared */}
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://baby.hopeandcarly.com/" />
+    <meta property="og:title" content="Hope & Carly Are Having a Baby Girl!" />
+    <meta
+      property="og:description"
+      content="Hope and Carly are expecting their first baby girl, due October 9, 2026. View our registry, sign up to bring a meal, and leave us a note."
+    />
+
+    {/* Canonical — tells Google the authoritative URL */}
+    <link rel="canonical" href="https://baby.hopeandcarly.com/" />
+  </>
+);
 
 export default function Home() {
   const [open, setOpen] = useState(false);
