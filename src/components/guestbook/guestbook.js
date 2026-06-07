@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { supabase } from "../../lib/supabase"
+import { getSupabaseClient } from "../../lib/supabase"
 import * as styles from "./guestbook.module.css"
 
 export function Guestbook() {
@@ -10,6 +10,13 @@ export function Guestbook() {
   async function handleSubmit(e) {
     e.preventDefault()
     if (!name.trim() || !message.trim()) return
+
+    const supabase = getSupabaseClient()
+    if (!supabase) {
+      setStatus("error")
+      return
+    }
+
     setStatus("submitting")
     const { error } = await supabase
       .from("baby_guestbook")

@@ -205,7 +205,7 @@ export default function Home() {
             <Card className={styles.helpCard}>
               <h3>A Few Other Ideas</h3>
               <ul>
-                <li>Grocery delivery gift cards (Instacart or Whole Foods)</li>
+                <li>Gift cards for groceries and meal delivery (specifically Amazon for Whole Foods, Grubhub, or Uber Eats) would be lovely!</li>
                 <li>A professional house cleaning session</li>
                 <li>Contributing toward postpartum support</li>
               </ul>
