@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -6,11 +6,23 @@ import * as styles from "./lightbox.module.css";
 
 const SWIPE_DISTANCE = 80;
 const DISMISS_DISTANCE = 120;
+const ZOOM_SCALE = 2.5;
+const DOUBLE_TAP_MS = 300;
+// Generous enough to reach any corner at ZOOM_SCALE without letting the photo
+// be flung off screen.
+const PAN_BOUNDS = { left: -400, right: 400, top: -400, bottom: 400 };
 
 export const Lightbox = ({ photos, index, onIndexChange, onClose }) => {
   const isOpen = index !== null && index >= 0;
   const photo = isOpen ? photos[index] : null;
   const closeRef = useRef(null);
+  const lastTapRef = useRef(0);
+  const [zoomed, setZoomed] = useState(false);
+
+  // A new photo (or a close) always starts back at 1x.
+  useEffect(() => {
+    setZoomed(false);
+  }, [index]);
 
   const step = useCallback(
     (delta) => {
@@ -31,14 +43,27 @@ export const Lightbox = ({ photos, index, onIndexChange, onClose }) => {
       if (event.key === "ArrowLeft") step(-1);
     };
 
-    // Stop the page behind the overlay from scrolling.
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    // iOS Safari ignores `overflow: hidden` on body, so pin the page in place
+    // instead and put the scroll position back on close.
+    const scrollY = window.scrollY;
+    const { style } = document.body;
+    const previous = {
+      position: style.position,
+      top: style.top,
+      width: style.width,
+    };
+    style.position = "fixed";
+    style.top = `-${scrollY}px`;
+    style.width = "100%";
+
     document.addEventListener("keydown", onKeyDown);
     closeRef.current?.focus();
 
     return () => {
-      document.body.style.overflow = previousOverflow;
+      style.position = previous.position;
+      style.top = previous.top;
+      style.width = previous.width;
+      window.scrollTo(0, scrollY);
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [isOpen, onClose, step]);
@@ -52,13 +77,28 @@ export const Lightbox = ({ photos, index, onIndexChange, onClose }) => {
     });
   }, [isOpen, index, photos]);
 
+  // While zoomed, dragging pans the photo instead of navigating away from it.
   const handleDragEnd = (_event, { offset, velocity }) => {
+    if (zoomed) return;
     if (offset.y > DISMISS_DISTANCE && velocity.y > 0) {
       onClose();
     } else if (offset.x < -SWIPE_DISTANCE) {
       step(1);
     } else if (offset.x > SWIPE_DISTANCE) {
       step(-1);
+    }
+  };
+
+  // Native pinch still works via `touch-action: pinch-zoom`; this adds the
+  // double-tap shortcut people expect from a photo viewer.
+  const handleTap = (event) => {
+    event.stopPropagation();
+    const now = Date.now();
+    if (now - lastTapRef.current < DOUBLE_TAP_MS) {
+      setZoomed((current) => !current);
+      lastTapRef.current = 0;
+    } else {
+      lastTapRef.current = now;
     }
   };
 
@@ -102,16 +142,18 @@ export const Lightbox = ({ photos, index, onIndexChange, onClose }) => {
             key={photo.slug}
             src={photo.src}
             alt={photo.alt}
-            className={styles.image}
+            className={`${styles.image} ${zoomed ? styles.zoomed : ""}`}
             width={photo.fullWidth}
             height={photo.fullHeight}
             drag
-            dragElastic={0.2}
-            dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+            dragElastic={zoomed ? 0 : 0.2}
+            dragConstraints={
+              zoomed ? PAN_BOUNDS : { left: 0, right: 0, top: 0, bottom: 0 }
+            }
             onDragEnd={handleDragEnd}
-            onClick={(event) => event.stopPropagation()}
+            onClick={handleTap}
             initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
+            animate={{ opacity: 1, scale: zoomed ? ZOOM_SCALE : 1 }}
             exit={{ opacity: 0, scale: 0.96 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
             draggable={false}

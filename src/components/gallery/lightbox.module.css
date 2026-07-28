@@ -7,6 +7,8 @@
   justify-content: center;
   padding: var(--spacer-xl);
   background-color: rgba(0, 0, 0, 0.92);
+  /* Don't let an overscroll at the edge chain out to whatever is behind. */
+  overscroll-behavior: contain;
 }
 
 .image {
@@ -16,16 +18,28 @@
   height: auto;
   object-fit: contain;
   border-radius: var(--border-radius-m);
-  cursor: grab;
-  touch-action: none;
+  cursor: zoom-in;
+  /* `pinch-zoom` rather than `none`: the browser keeps two-finger zoom while
+     single-finger drags still reach the swipe handler. */
+  touch-action: pinch-zoom;
 }
 
-.image:active {
+.zoomed {
+  cursor: grab;
+}
+
+.zoomed:active {
   cursor: grabbing;
 }
 
 .control {
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Apple's 44px minimum, so the controls stay tappable on a phone. */
+  min-width: 44px;
+  min-height: 44px;
   padding: 0;
   border: none;
   background: none;
@@ -47,9 +61,10 @@
   border-radius: var(--border-radius-s);
 }
 
+/* max() keeps the button clear of a notch or Dynamic Island. */
 .close {
-  top: var(--spacer-l);
-  right: var(--spacer-l);
+  top: max(var(--spacer-l), env(safe-area-inset-top));
+  right: max(var(--spacer-l), env(safe-area-inset-right));
   font-size: 2.5rem;
 }
 
@@ -71,7 +86,7 @@
 
 .counter {
   position: absolute;
-  bottom: var(--spacer-l);
+  bottom: max(var(--spacer-l), env(safe-area-inset-bottom));
   left: 0;
   right: 0;
   margin: 0;
@@ -94,8 +109,12 @@
   }
 
   .close {
-    top: var(--spacer-m);
-    right: var(--spacer-m);
+    top: max(var(--spacer-m), env(safe-area-inset-top));
+    right: max(var(--spacer-m), env(safe-area-inset-right));
+  }
+
+  .counter {
+    bottom: max(var(--spacer-m), env(safe-area-inset-bottom));
   }
 }
 

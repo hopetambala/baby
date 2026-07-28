@@ -22,6 +22,8 @@ const MANIFEST_PATH = path.join(ROOT, "src", "data", "gallery-manifest.json");
 const SOURCE_EXTENSIONS = [".jpg", ".jpeg", ".png"];
 const FULL = { suffix: "", maxEdge: 1400, quality: 80 };
 const THUMB = { suffix: "-thumb", maxEdge: 700, quality: 78 };
+// Serves low-DPR phones via srcset; high-DPR ones still pick the 700px thumb.
+const SMALL = { suffix: "-small", maxEdge: 400, quality: 76 };
 
 const MONTHS = [
   "January",
@@ -126,7 +128,8 @@ async function main() {
     const sourcePath = path.join(SOURCE_DIR, file);
     const fullName = `${parsed.slug}${FULL.suffix}.webp`;
     const thumbName = `${parsed.slug}${THUMB.suffix}.webp`;
-    expected.add(fullName).add(thumbName);
+    const smallName = `${parsed.slug}${SMALL.suffix}.webp`;
+    expected.add(fullName).add(thumbName).add(smallName);
 
     const full = await render(
       sourcePath,
@@ -138,12 +141,19 @@ async function main() {
       path.join(OUTPUT_DIR, thumbName),
       THUMB
     );
-    if (!full.skipped || !thumb.skipped) rendered += 1;
+    const small = await render(
+      sourcePath,
+      path.join(OUTPUT_DIR, smallName),
+      SMALL
+    );
+    if (!full.skipped || !thumb.skipped || !small.skipped) rendered += 1;
 
     entries.push({
       slug: parsed.slug,
       src: `/gallery/${fullName}`,
       thumb: `/gallery/${thumbName}`,
+      thumbSmall: `/gallery/${smallName}`,
+      thumbSmallWidth: small.width,
       width: thumb.width,
       height: thumb.height,
       fullWidth: full.width,

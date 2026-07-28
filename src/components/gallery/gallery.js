@@ -34,6 +34,10 @@ const MarqueeRow = ({ items, reverse, onSelect }) => (
           >
             <img
               src={photo.thumb}
+              srcSet={`${photo.thumbSmall} ${photo.thumbSmallWidth}w, ${photo.thumb} ${photo.width}w`}
+              // Roughly the widest a tile gets at each breakpoint; the browser
+              // folds in device pixel ratio from there.
+              sizes="(max-width: 900px) 285px, 390px"
               alt={photo.alt}
               width={photo.width}
               height={photo.height}

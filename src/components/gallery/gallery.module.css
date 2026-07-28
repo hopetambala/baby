@@ -84,20 +84,33 @@
   outline-offset: 3px;
 }
 
+/* The marquee keeps running on touch. `overflow: hidden` (never `auto`) is what
+   makes that safe — the row never claims the gesture, so vertical swipes pass
+   straight through to the page. */
 @media only screen and (max-width: 900px) {
   .gallery {
     margin-left: calc(var(--spacer-l) * -1);
     margin-right: calc(var(--spacer-l) * -1);
-    overflow: visible;
   }
 
-  /* Auto-motion competes with vertical scrolling on touch, so mobile gets a
-     plain swipe strip instead. */
+  /* Shorter tiles fit more of the timeline on a narrow screen. */
+  .tile {
+    height: 160px;
+  }
+
+  /* Hover can't pause on touch, so drop the lift that implies it. */
+  .tile:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* No auto-motion here, so the row has to become something the user can drive
+   themselves — a plain scrollable strip. */
+@media (prefers-reduced-motion: reduce) {
   .row {
     overflow-x: auto;
-    scroll-snap-type: x proximity;
     -webkit-overflow-scrolling: touch;
-    scroll-padding-left: var(--spacer-l);
     scrollbar-width: none;
     mask-image: none;
     -webkit-mask-image: none;
@@ -109,30 +122,8 @@
 
   .track {
     animation: none;
-    padding-left: var(--spacer-l);
-    padding-right: var(--spacer-l);
-  }
-
-  .tile {
-    height: 200px;
-    scroll-snap-align: start;
-  }
-
-  /* Without the animation the second copy is just a repeat of the strip. */
-  .duplicate {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .row {
-    overflow-x: auto;
-    mask-image: none;
-    -webkit-mask-image: none;
-  }
-
-  .track {
-    animation: none;
+    /* Re-inset the tiles, since .gallery has bled past the section padding. */
+    padding: 0 var(--spacer-xxl);
   }
 
   .tile {
@@ -141,9 +132,17 @@
 
   .tile:hover {
     transform: none;
+    box-shadow: none;
   }
 
+  /* Without the loop, the second copy is just the strip repeated. */
   .duplicate {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) and (max-width: 900px) {
+  .track {
+    padding: 0 var(--spacer-l);
   }
 }
