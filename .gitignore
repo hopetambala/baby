@@ -71,7 +71,3 @@ yarn-error.log
 
 # Supabase CLI local state
 supabase/.temp
-
-# Gallery originals — ~40MB of camera files. Run `npm run optimize-images`
-# to regenerate the committed derivatives in static/gallery/.
-src/assets/photos/pregnant/

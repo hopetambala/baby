@@ -5,9 +5,10 @@
  * originals (~40MB) untouched. This script resizes them into static/gallery/
  * and writes a manifest the gallery component imports directly.
  *
- * Originals live in src/assets/photos/pregnant/ and are gitignored; the
- * derivatives are committed, because Vercel builds from git and never sees
- * the originals. Re-run with `npm run optimize-images` after changing photos.
+ * Both the originals and the derivatives are committed. The derivatives have
+ * to be, because Vercel builds from git and never runs this script; the
+ * originals are kept so any clone can regenerate them at different sizes.
+ * Re-run with `npm run optimize-images` after adding or removing photos.
  */
 const fs = require("fs");
 const fsp = require("fs/promises");
