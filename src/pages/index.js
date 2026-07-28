@@ -9,6 +9,7 @@ import { FloatingElements } from "../components/floating-elements/floating-eleme
 import { Countdown } from "../components/countdown/countdown";
 import { Card } from "../components/card/card";
 import { Guestbook } from "../components/guestbook/guestbook";
+import { Gallery } from "../components/gallery/gallery";
 
 import * as styles from "./index.module.css";
 import { Menu } from "../components/navigation/menu/menu";
@@ -184,6 +185,12 @@ export default function Home() {
 
       <SectionDivider isTop />
 
+      <Section title="Cute Baby Bump Pics">
+        <motion.div {...scrollReveal}>
+          <Gallery />
+        </motion.div>
+      </Section>
+
       <Section title="Ways to Show Love">
         <motion.div {...scrollReveal}>
           <p>It takes a village! Here are a few ways to shower Baby T with love.</p>
@@ -243,6 +250,7 @@ export default function Home() {
           },
           { href: "#welcome", text: "Welcome" },
           { href: "#registry", text: "Registry" },
+          { href: "#cutebabybumppics", text: "Baby Bump Pics" },
           { href: "#waystoshowlove", text: "Ways to Show Love" },
           { href: "#leaveanote", text: "Leave a Note" },
         ]}

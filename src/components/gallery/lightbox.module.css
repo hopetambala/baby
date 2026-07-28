@@ -1,0 +1,125 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacer-xl);
+  background-color: rgba(0, 0, 0, 0.92);
+  /* Don't let an overscroll at the edge chain out to whatever is behind. */
+  overscroll-behavior: contain;
+}
+
+.image {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--border-radius-m);
+  cursor: zoom-in;
+  /* `pinch-zoom` rather than `none`: the browser keeps two-finger zoom while
+     single-finger drags still reach the swipe handler. */
+  touch-action: pinch-zoom;
+}
+
+.zoomed {
+  cursor: grab;
+}
+
+.zoomed:active {
+  cursor: grabbing;
+}
+
+.control {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Apple's 44px minimum, so the controls stay tappable on a phone. */
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--hex-cream);
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.2s ease;
+}
+
+.control:hover,
+.control:focus-visible {
+  opacity: 1;
+}
+
+.control:focus-visible {
+  outline: 2px solid var(--hex-cream);
+  outline-offset: 4px;
+  border-radius: var(--border-radius-s);
+}
+
+/* max() keeps the button clear of a notch or Dynamic Island. */
+.close {
+  top: max(var(--spacer-l), env(safe-area-inset-top));
+  right: max(var(--spacer-l), env(safe-area-inset-right));
+  font-size: 2.5rem;
+}
+
+.prev,
+.next {
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 4rem;
+  padding: 0 var(--spacer-m);
+}
+
+.prev {
+  left: var(--spacer-s);
+}
+
+.next {
+  right: var(--spacer-s);
+}
+
+.counter {
+  position: absolute;
+  bottom: max(var(--spacer-l), env(safe-area-inset-bottom));
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  color: var(--hex-cream);
+  opacity: 0.6;
+  letter-spacing: 0.1rem;
+}
+
+@media only screen and (max-width: 900px) {
+  .backdrop {
+    padding: var(--spacer-m);
+  }
+
+  /* Swiping is the primary gesture on touch, so the arrows only get in the
+     way — Esc/backdrop/swipe-down all still close. */
+  .prev,
+  .next {
+    display: none;
+  }
+
+  .close {
+    top: max(var(--spacer-m), env(safe-area-inset-top));
+    right: max(var(--spacer-m), env(safe-area-inset-right));
+  }
+
+  .counter {
+    bottom: max(var(--spacer-m), env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .control {
+    transition: none;
+  }
+}
