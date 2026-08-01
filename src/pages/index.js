@@ -199,15 +199,13 @@ export default function Home() {
               <h3>Dinner and a Visit</h3>
               <p>
                 One of our favorite things is sharing a meal with people we love.
-                If you want to cook for us and stop by to meet her, we would be over the moon.
+                If you want to cook for us and stop by to meet her, we would be over the moon!
               </p>
-              <a
-                href="https://mealtrain.com/0r3nw4"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Pick a Date
-              </a>
+              <p>
+                Shoot us a text or an{" "}
+                <a href="mailto:hopeandcarly1@gmail.com">email</a> to coordinate a
+                time that works for you. We'd love to see you!
+              </p>
             </Card>
             <Card className={styles.helpCard}>
               <h3>A Few Other Ideas</h3>
