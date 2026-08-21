@@ -1,7 +1,10 @@
 .landing {
   position: relative;
-  background-color: var(--hex-neutral-900);
-  background: url("../assets/photos/landing-engagement.jpeg") no-repeat center center fixed;
+  /* Colour is part of the shorthand so it survives as the backdrop while the
+     hero loads — as its own declaration the shorthand below just reset it.
+     Keep the URL in sync with HERO_IMAGE in index.js. */
+  background: var(--hex-neutral-900) url("/photos/landing-engagement.webp")
+    no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
