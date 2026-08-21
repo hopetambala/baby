@@ -13,7 +13,13 @@ import { Gallery } from "../components/gallery/gallery";
 
 import * as styles from "./index.module.css";
 import { Menu } from "../components/navigation/menu/menu";
-import romeoPhoto from "../assets/photos/romeo.jpg";
+import site from "../data/site";
+
+// Both are rendered by `npm run optimize-images` into static/, so they're
+// referenced by absolute URL rather than imported through webpack. HERO_IMAGE
+// has to stay in sync with the .landing background in index.module.css.
+const HERO_IMAGE = "/photos/landing-engagement.webp";
+const ROMEO_IMAGE = "/photos/romeo.webp";
 
 const TypewriterHeading = ({ text, startDelay = 0 }) => {
   const words = text.split(" ");
@@ -63,24 +69,55 @@ const scrollReveal = {
 
 export const Head = () => (
   <>
-    <title>Hope & Carly Are Having a Baby Girl!</title>
-    <meta
-      name="description"
-      content="Hope and Carly are expecting their first baby girl, due October 9, 2026. View our registry, sign up to bring a meal, and leave us a note."
-    />
+    <title>{site.title}</title>
+    <meta name="description" content={site.description} />
     <meta name="robots" content="index, follow" />
 
-    {/* Open Graph — controls how the link looks when shared */}
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://baby.hopeandcarly.com/" />
-    <meta property="og:title" content="Hope & Carly Are Having a Baby Girl!" />
-    <meta
-      property="og:description"
-      content="Hope and Carly are expecting their first baby girl, due October 9, 2026. View our registry, sign up to bring a meal, and leave us a note."
-    />
+    {/* Tells Google which URL is authoritative */}
+    <link rel="canonical" href={site.url} />
 
-    {/* Canonical — tells Google the authoritative URL */}
-    <link rel="canonical" href="https://baby.hopeandcarly.com/" />
+    {/*
+      The hero is a CSS background, which the browser can't discover until it
+      has parsed the stylesheet. Preloading it starts the fetch immediately —
+      it's the largest thing on the landing screen, so it sets the LCP.
+    */}
+    <link rel="preload" as="image" href={HERO_IMAGE} />
+
+    {/* Open Graph — how the link renders in messages and on Facebook */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.siteName} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content={site.url} />
+    <meta property="og:title" content={site.title} />
+    <meta property="og:description" content={site.description} />
+    <meta property="og:image" content={site.ogImage} />
+    <meta property="og:image:width" content={site.ogImageWidth} />
+    <meta property="og:image:height" content={site.ogImageHeight} />
+    <meta property="og:image:alt" content={site.ogImageAlt} />
+
+    {/* Twitter reads its own namespace and ignores the og:* equivalents */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={site.title} />
+    <meta name="twitter:description" content={site.description} />
+    <meta name="twitter:image" content={site.ogImage} />
+    <meta name="twitter:image:alt" content={site.ogImageAlt} />
+
+    {/*
+      WebSite is the one schema.org type with a documented payoff for a page
+      like this: Google uses `name` to pick the site name it shows above the
+      URL in search results.
+    */}
+    <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: site.title,
+        alternateName: site.siteName,
+        url: site.url,
+        description: site.description,
+        image: site.ogImage,
+      })}
+    </script>
   </>
 );
 
@@ -147,8 +184,12 @@ export default function Home() {
             </GridItem>
             <GridItem>
               <img
-                src={romeoPhoto}
+                src={ROMEO_IMAGE}
                 alt="Hope, Carly, and Romeo at the gender reveal"
+                width={1100}
+                height={825}
+                loading="lazy"
+                decoding="async"
                 style={{ width: "auto", maxWidth: "100%", maxHeight: 400, borderRadius: 20, display: "block", margin: "0 auto" }}
               />
             </GridItem>

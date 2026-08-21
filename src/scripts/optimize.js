@@ -1,9 +1,13 @@
 /**
- * Generates web-ready WebP derivatives for the "Cute Baby Bump Pics" gallery.
+ * Generates web-ready derivatives for every photo the site serves:
+ *
+ *   1. The "Cute Baby Bump Pics" gallery, resized into static/gallery/ with a
+ *      manifest the gallery component imports directly.
+ *   2. The standalone page images (see STANDALONE) — the social preview card,
+ *      the landing hero, and the welcome-section family photo.
  *
  * The site has no Gatsby image plugin, so webpack would ship the camera
- * originals (~40MB) untouched. This script resizes them into static/gallery/
- * and writes a manifest the gallery component imports directly.
+ * originals (~40MB) untouched.
  *
  * Both the originals and the derivatives are committed. The derivatives have
  * to be, because Vercel builds from git and never runs this script; the
@@ -20,11 +24,52 @@ const SOURCE_DIR = path.join(ROOT, "src", "assets", "photos", "pregnant");
 const OUTPUT_DIR = path.join(ROOT, "static", "gallery");
 const MANIFEST_PATH = path.join(ROOT, "src", "data", "gallery-manifest.json");
 
+const PHOTOS_DIR = path.join(ROOT, "src", "assets", "photos");
+
 const SOURCE_EXTENSIONS = [".jpg", ".jpeg", ".png"];
 const FULL = { suffix: "", maxEdge: 1400, quality: 80 };
 const THUMB = { suffix: "-thumb", maxEdge: 700, quality: 78 };
 // Serves low-DPR phones via srcset; high-DPR ones still pick the 700px thumb.
 const SMALL = { suffix: "-small", maxEdge: 400, quality: 76 };
+
+/**
+ * Images that live outside the gallery. These used to be imported straight from
+ * src/assets/ and handed to webpack, which shipped the ~1.4MB originals as-is;
+ * the landing hero is the page's LCP element, so that was the single biggest
+ * thing slowing the site down. Rendering them here instead means the committed
+ * derivative is the only copy that ever reaches a browser.
+ *
+ * Written to static/ under stable names, matching the gallery, so the CSS and
+ * the <Head> can reference them by absolute URL.
+ */
+const STANDALONE = [
+  {
+    // The social preview card. `crop` rather than `maxEdge`: link previews want
+    // exactly 1.91:1, and centring the crop keeps both faces in frame. JPEG
+    // because some scrapers still won't decode WebP.
+    source: path.join(PHOTOS_DIR, "landing-engagement.jpeg"),
+    output: path.join(ROOT, "static", "og-image.jpg"),
+    crop: { width: 1200, height: 630 },
+    quality: 82,
+    format: "jpeg",
+  },
+  {
+    // Full-bleed background for the landing section, so it stays sharp on wide
+    // displays even though it is only ever painted at `background-size: cover`.
+    source: path.join(PHOTOS_DIR, "landing-engagement.jpeg"),
+    output: path.join(ROOT, "static", "photos", "landing-engagement.webp"),
+    maxEdge: 2000,
+    quality: 80,
+  },
+  {
+    // Rendered at up to 400px tall, so 1100px covers a 2x display with room to
+    // spare.
+    source: path.join(PHOTOS_DIR, "romeo.jpg"),
+    output: path.join(ROOT, "static", "photos", "romeo.webp"),
+    maxEdge: 1100,
+    quality: 80,
+  },
+];
 
 const MONTHS = [
   "January",
@@ -84,18 +129,30 @@ async function isUpToDate(sourcePath, outputPath) {
  * `.rotate()` bakes in EXIF orientation, so the dimensions sharp reports back
  * are the ones the browser will actually render. We take width/height from the
  * result rather than the source metadata for exactly that reason.
+ *
+ * `maxEdge` fits the whole photo inside a box and keeps its aspect ratio;
+ * `crop` instead fills an exact size, trimming the overflow from the edges.
  */
-async function render(sourcePath, outputPath, { maxEdge, quality }) {
+async function render(
+  sourcePath,
+  outputPath,
+  { maxEdge, quality, crop, format = "webp" }
+) {
   if (await isUpToDate(sourcePath, outputPath)) {
     const { width, height } = await sharp(outputPath).metadata();
     return { width, height, skipped: true };
   }
 
-  const info = await sharp(sourcePath)
-    .rotate()
-    .resize(maxEdge, maxEdge, { fit: "inside", withoutEnlargement: true })
-    .webp({ quality })
-    .toFile(outputPath);
+  const resized = crop
+    ? sharp(sourcePath).rotate().resize(crop.width, crop.height, { fit: "cover" })
+    : sharp(sourcePath)
+        .rotate()
+        .resize(maxEdge, maxEdge, { fit: "inside", withoutEnlargement: true });
+
+  const info = await (format === "jpeg"
+    ? resized.jpeg({ quality, mozjpeg: true })
+    : resized.webp({ quality })
+  ).toFile(outputPath);
 
   return { width: info.width, height: info.height, skipped: false };
 }
@@ -192,6 +249,24 @@ async function main() {
   console.log(
     `Output ${(bytes / 1024 / 1024).toFixed(1)}MB to static/gallery/`
   );
+
+  await renderStandalone();
+}
+
+async function renderStandalone() {
+  for (const image of STANDALONE) {
+    await fsp.mkdir(path.dirname(image.output), { recursive: true });
+    const { width, height, skipped } = await render(
+      image.source,
+      image.output,
+      image
+    );
+    const { size } = await fsp.stat(image.output);
+    console.log(
+      `${path.relative(ROOT, image.output)} — ${width}x${height}, ` +
+        `${(size / 1024).toFixed(0)}KB${skipped ? " (cached)" : ""}`
+    );
+  }
 }
 
 main().catch((error) => {

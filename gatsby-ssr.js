@@ -1,6 +1,7 @@
 import React from "react"
 
-export const onRenderBody = ({ setHeadComponents }) => {
+export const onRenderBody = ({ setHeadComponents, setHtmlAttributes }) => {
+  setHtmlAttributes({ lang: "en" })
   setHeadComponents([
     <link
       key="emoji-favicon"
