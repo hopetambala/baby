@@ -1,4 +1,12 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "public"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run clean && npm run build",
+  "outputDirectory": "public",
+  "redirects": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap-index.xml",
+      "statusCode": 301
+    }
+  ]
 }
